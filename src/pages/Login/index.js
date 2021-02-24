@@ -1,43 +1,22 @@
+import { connect } from "react-redux";
 import { Container, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { setCookie } from "../../helper/cookies";
-import { apiCall } from "../../axios";
-import { endpoint } from "../../axios/endpoints";
-import store from "../../redux/store/store";
+import { getCookie } from "../../helper/cookies";
 import { userActionTypes } from "../../redux/constants/userAction.types";
 import userActionGenerator from "../../redux/actions/userAction.generator";
 import LoginForm from "../../components/LoginForm";
 
-export default function LoginPage(props) {
+function LoginPage(props) {
   const classes = styles();
   // On Click event handler
-  const onLogin = (event) => {
+  const onLogin = async (event) => {
     event.preventDefault();
     const postData = {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    //login Api call
-    apiCall({ url: endpoint.login, body: postData, method: "POST" })
-      .then((response) => {
-        if (!response.data.success) {
-          window.alert(response.data.msg);
-          return false;
-        }
-        setCookie("Token", response.data.token, {
-          path: "/",
-          expires: new Date(Date.now() + 86400e3 * 2),
-        });
-        store.dispatch(
-          userActionGenerator(userActionTypes.ADD, {
-            user: response.data.user,
-          })
-        );
-        props.history.push("/");
-      })
-      .catch((err) => {
-        return err;
-      });
+    await props.login(postData);
+    props.history.push("/");
   };
 
   // On Click event handler
@@ -45,11 +24,13 @@ export default function LoginPage(props) {
     event.preventDefault();
     props.history.push("/signup");
   };
-
+  if (getCookie("Token")) {
+    props.history.push("/");
+  }
   return (
     <Container>
       <Box className={classes.box}>
-        <Typography variant="h3" color="textSecondary">
+        <Typography variant="h1" color="textPrimary">
           Login
         </Typography>
         <LoginForm
@@ -62,7 +43,14 @@ export default function LoginPage(props) {
   );
 }
 
-const styles = makeStyles({
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (payload = {}) =>
+      dispatch(userActionGenerator(userActionTypes.ADD, payload)),
+  };
+};
+
+const styles = makeStyles((theme) => ({
   box: {
     border: "1px solid blue",
     display: "flex",
@@ -88,4 +76,6 @@ const styles = makeStyles({
   loginBtn: {
     width: "60%",
   },
-});
+}));
+
+export default connect(null, mapDispatchToProps)(LoginPage);
