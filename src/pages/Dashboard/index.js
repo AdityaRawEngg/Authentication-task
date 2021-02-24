@@ -2,35 +2,17 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import store from "../../redux/store/store";
 import userActionGenerator from "../../redux/actions/userAction.generator";
 import { userActionTypes } from "../../redux/constants/userAction.types";
-import { getCookie, removeCookie } from "../../helper/cookies";
-import { apiCall } from "../../axios";
-import { endpoint } from "../../axios/endpoints";
+import { getCookie } from "../../helper/cookies";
 import UserDetails from "../../components/UserDetails";
+import Editor from "../../components/SunEditor";
+// import Editor from "../../components/SlateEditor";
 
 class Home extends Component {
   componentDidMount() {
-    if (getCookie("Token") && !this.props.user.name) {
-      apiCall({
-        url: endpoint.userDetails,
-        method: "GET",
-        headers: { Authorization: `Bearer ${getCookie("Token")}` },
-      })
-        .then((response) => {
-          store.dispatch(
-            userActionGenerator(userActionTypes.ADD, {
-              user: response.data.user,
-            })
-          );
-          return response;
-        })
-        .catch((err) => {
-          removeCookie("Token");
-          this.props.history.push("/login");
-          return err;
-        });
+    if (Object.keys(this.props.user).length === 0) {
+      this.props.getUser();
     }
   }
 
@@ -43,6 +25,7 @@ class Home extends Component {
             Dashboard
           </Typography>
           <UserDetails {...this.props} />
+          <Editor />
         </div>
       </>
     );
@@ -54,4 +37,9 @@ const mapStateToProps = (state) => {
     user: state.userReducer.user,
   };
 };
-export default connect(mapStateToProps)(Home);
+
+const mapDispatchToProps = (dispatch) => ({
+  getUser: () => dispatch(userActionGenerator(userActionTypes.GET)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
