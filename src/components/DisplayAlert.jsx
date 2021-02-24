@@ -13,35 +13,36 @@ function DisplayAlert(props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (props.alertMessage !== "") {
+    if (props.message !== "") {
       setOpen(true);
     }
-  }, [props.alertMessage]);
+  }, [props.message]);
 
   const handleClose = (event) => {
     setOpen(false);
     props.clearAlert();
   };
+
   return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={props.alertStatus.toLowerCase()}>
-        {props.alertMessage}
-      </Alert>
-    </Snackbar>
+    <>
+      {props.status === "" ? (
+        <></>
+      ) : (
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={props.status.toLowerCase()}>
+            {props.message}
+          </Alert>
+        </Snackbar>
+      )}
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
-  alertMessage: state.userReducer.alertMessage,
-  alertStatus: state.userReducer.alertStatus,
+  message: state.alertReducer.message,
+  status: state.alertReducer.status,
 });
 const mapDispatchToProps = (dispatch) => ({
-  clearAlert: () =>
-    dispatch(
-      userActionGenerator(userActionTypes.ERROR, {
-        message: "",
-        status: "success",
-      })
-    ),
+  clearAlert: () => dispatch(userActionGenerator(userActionTypes.CLEARERROR)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(DisplayAlert);
