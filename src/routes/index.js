@@ -4,12 +4,15 @@ import Home from "../pages/Dashboard";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import Navigation from "../components/Navigation";
+import DisplayAlert from "../components/DisplayAlert";
 
 class Router extends Component {
   render() {
     return (
       <BrowserRouter>
         <Navigation />
+        <DisplayAlert />
+
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
