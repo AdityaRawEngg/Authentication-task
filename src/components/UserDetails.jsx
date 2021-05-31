@@ -1,8 +1,9 @@
 import { Box, Typography } from "@material-ui/core";
+import Editor from "./SunEditor";
 export default function UserDetails({ user }) {
   return (
     <Box>
-      <Typography variant="h2" align="center" color="textSecondary">
+      {/* <Typography variant="h2" align="center" color="textSecondary">
         Profile
       </Typography>
       <Typography variant="h3" align="center" color="textSecondary">
@@ -13,7 +14,8 @@ export default function UserDetails({ user }) {
       </Typography>
       <Typography variant="h3" align="center" color="textSecondary">
         Phone: {user.phone}
-      </Typography>
+      </Typography> */}
+      <Editor />
     </Box>
   );
 }

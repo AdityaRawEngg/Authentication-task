@@ -7,7 +7,13 @@ export default function SignUpForm({
   isOtpGenerated,
 }) {
   return (
-    <form onSubmit={onSignup} className={classes.form}>
+    <form
+      data-testid="signup"
+      id="signupForm"
+      onSubmit={onSignup}
+      className={classes.form}
+      name="signupForm"
+    >
       <TextField
         required
         variant="outlined"
@@ -59,10 +65,11 @@ export default function SignUpForm({
         variant="contained"
         color="primary"
         type="submit"
+        id="signupbtn"
       >
         Sign Up
       </Button>
-      <Button variant="text" color="secondary" onClick={onLogin}>
+      <Button variant="text" color="secondary" id="loginbtn" onClick={onLogin}>
         Already Have a account? login
       </Button>
     </form>

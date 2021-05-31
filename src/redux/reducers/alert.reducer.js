@@ -13,8 +13,6 @@ const alertReducer = (state = initialState, action) => {
         message: action.payload.message,
         status: action.payload.status,
       };
-    // case userActionTypes.CLEARERROR:
-    //   return { ...state };
 
     default:
       return { ...state };

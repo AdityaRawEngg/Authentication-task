@@ -10,7 +10,6 @@ export default function SignUpPage(props) {
 
   const onSignup = (event) => {
     event.preventDefault();
-
     const postData = {
       name: event.target.name.value,
       email: event.target.email.value,
@@ -18,7 +17,6 @@ export default function SignUpPage(props) {
       password: event.target.password.value,
       otpResponse: event.target.otp ? event.target.otp.value : undefined,
     };
-
     if (!postData.otpResponse) {
       apiCall({ url: endpoint.generateOTP, body: postData, method: "POST" })
         .then((response) => {
@@ -29,8 +27,10 @@ export default function SignUpPage(props) {
         });
     } else {
       // Sign Up
+
       apiCall({ url: endpoint.signup, body: postData, method: "POST" })
         .then((response) => {
+          console.log(response);
           props.history.push("/");
         })
         .catch((err) => {
@@ -42,6 +42,7 @@ export default function SignUpPage(props) {
   //OnClick event handler
   const onLogin = (event) => {
     event.preventDefault();
+
     props.history.push("/login");
   };
 

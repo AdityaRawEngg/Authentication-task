@@ -41,7 +41,7 @@ export const apiCall = ({ url, body = {}, method = "POST", headers = {} }) => {
             if (response.data.msg) {
               store.dispatch(
                 userActionGenerator(userActionTypes.ERROR, {
-                  status: "Error",
+                  status: "Info",
                   message: response.data.msg,
                 })
               );
@@ -50,6 +50,7 @@ export const apiCall = ({ url, body = {}, method = "POST", headers = {} }) => {
           .catch((err) => {
             if (err.response) {
               if (err.response.status === 403) {
+                removeCookie("Token");
                 store.dispatch(
                   userActionGenerator(userActionTypes.ERROR, {
                     status: "Error",
@@ -81,6 +82,7 @@ export const apiCall = ({ url, body = {}, method = "POST", headers = {} }) => {
           })
           .catch((err) => {
             if (err.response.status === 403) {
+              removeCookie("Token");
               store.dispatch(
                 userActionGenerator(userActionTypes.ERROR, {
                   status: "Error",

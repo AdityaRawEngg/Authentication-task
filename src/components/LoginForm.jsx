@@ -24,10 +24,16 @@ export default function LoginForm({ onLogin, onRegister, classes }) {
         variant="outlined"
         color="primary"
         type="submit"
+        id="login"
       >
         Login
       </Button>
-      <Button variant="text" color="secondary" onClick={onRegister}>
+      <Button
+        variant="text"
+        color="secondary"
+        id="register"
+        onClick={onRegister}
+      >
         Does not have an account? Register
       </Button>
     </form>

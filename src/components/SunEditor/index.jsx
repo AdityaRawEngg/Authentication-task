@@ -1,6 +1,8 @@
+import { Component } from "react";
 import { useRef, useEffect, useState } from "react";
 import SunEditor, { buttonList } from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
+
 export default function Editor(props) {
   const [content, setContent] = useState("<p>Default Value</p>");
   const editorRef = useRef();
@@ -17,16 +19,22 @@ export default function Editor(props) {
     setContent(value);
   };
   return (
-    <SunEditor
-      ref={editorRef}
-      setContents={content}
-      placeholder="Sun Editor"
-      height="100%"
-      setOptions={{
-        buttonList: buttonList.complex,
-      }}
-      onInput={handleInput}
-      onChange={handleChange}
-    />
+    <>
+      <SunEditor
+        ref={editorRef}
+        setContents={content}
+        placeholder="Sun Editor"
+        height="100%"
+        setOptions={{
+          buttonList: buttonList.complex,
+        }}
+        onInput={handleInput}
+        onChange={handleChange}
+      />
+      <div>
+        <h1>Suneditor</h1>
+        <p>{content}</p>
+      </div>
+    </>
   );
 }

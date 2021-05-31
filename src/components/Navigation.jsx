@@ -21,7 +21,7 @@ function Navigation(props) {
     <AppBar position="static">
       <Toolbar>
         {props.location.pathname === "/" ? (
-          <Button color="inherit" onClick={onLogout}>
+          <Button id="logout" color="inherit" onClick={onLogout}>
             Logout
           </Button>
         ) : props.location.pathname === "/login" ? (
